@@ -54,17 +54,17 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ cart, updateQty, removeFromCa
               {/* Right column: Name, Price, Quantity */}
               <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
                 {/* Top: Name */}
-                <Typography variant="body2" fontWeight={600}>
+                <Typography variant="body2" fontWeight={600} color={"primary"}>
                   {item.name}
                 </Typography>
 
                 {/* Middle: Price */}
-                <Typography variant="body2" fontWeight={500}>
+                <Typography variant="body2" fontWeight={500} color={"textSecondary"}>
                   ₹{item.price * item.quantity}
                 </Typography>
 
                 {/* Bottom: Quantity controls */}
-                <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, mt: 0.5 }}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                   <IconButton
                     size="small"
                     onClick={() => updateQty(item.id, Math.max(item.quantity - 1, 1))}
@@ -87,13 +87,20 @@ const CartOverlay: React.FC<CartOverlayProps> = ({ cart, updateQty, removeFromCa
           ))}
 
           <Divider sx={{ my: 1 }} />
-          <Typography fontWeight={700}>Total: ₹{total}</Typography>
+          <Typography fontWeight={700} color="white">
+            Total: ₹{total}
+          </Typography>
           <Button
             fullWidth
-            sx={{ mt: 1, bgcolor: "#388e3c", "&:hover": { bgcolor: "#2e7d32" } }}
+            sx={{
+              mt: 1,
+              bgcolor: "#388e3c",
+              color: "white", // text color
+            }}
           >
             Checkout
           </Button>
+
         </>
       )}
     </Box>
