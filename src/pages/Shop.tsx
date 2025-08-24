@@ -27,7 +27,24 @@ const sections: { title: string; products: Product[] }[] = [
       { id: "barley", name: "Barley", price: 1000, image: "https://plus.unsplash.com/premium_photo-1705404738459-c4cb25ad7933?w=1000&auto=format&fit=crop&q=60" },
     ],
   },
-  // Fruits and Vegetables sections...
+  {
+    title: "Fruits",
+    products: [
+      { id: "apple", name: "Apple", price: 180, image: "https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?w=1000&auto=format&fit=crop&q=60" },
+      { id: "banana", name: "Banana", price: 60, image: "https://images.unsplash.com/photo-1603833665858-e61d17a86224?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YmFuYW5hfGVufDB8fDB8fHww" },
+      { id: "mango", name: "Mango", price: 120, image: "https://plus.unsplash.com/premium_photo-1674382739389-338645e7dd8c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bWFuZ298ZW58MHx8MHx8fDA%3D" },
+      { id: "grapes", name: "Grapes", price: 90, image: "https://images.unsplash.com/photo-1631299106224-aae61c217164?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Z3JhcGVzfGVufDB8fDB8fHww" },
+    ],
+  },
+  {
+    title: "Vegetables",
+    products: [
+      { id: "potato", name: "Potato", price: 40, image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cG90YXRvfGVufDB8fDB8fHww" },
+      { id: "tomato", name: "Tomato", price: 50, image: "https://images.unsplash.com/photo-1582284540020-8acbe03f4924?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dG9tYXRvfGVufDB8fDB8fHww" },
+      { id: "onion", name: "Onion", price: 55, image: "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8b25pb258ZW58MHx8MHx8fDA%3D" },
+      { id: "carrot", name: "Carrot", price: 70, image: "https://images.unsplash.com/photo-1590868309235-ea34bed7bd7f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Y2Fycm90fGVufDB8fDB8fHww" },
+    ],
+  },
 ];
 
 const Shop: React.FC<ShopProps> = ({ addToCart }) => {
@@ -82,7 +99,7 @@ const Shop: React.FC<ShopProps> = ({ addToCart }) => {
                       image={p.image}
                       alt={p.name}
                       sx={{
-                        height: 300,
+                        height: 250,
                         objectFit: "cover",
                         transition: "transform 0.3s ease",
                         "&:hover": { transform: "scale(1.05)" },
