@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug Page</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.6; }
+    pre { background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Sentinel Hub Frontend Debug Page</h1>
+
+  <div id="react-test">
+    <h2>React Mount Test</h2>
+    <div id="react-mount-point"></div>
+  </div>
+
+  <div id="mui-test">
+    <h2>Material UI Test</h2>
+    <div id="mui-mount-point"></div>
+  </div>
+
+  <div id="api-test">
+    <h2>API Connection Test</h2>
+    <pre id="api-result">Testing connection to backend...</pre>
+  </div>
+
+  <script type="module">
+    // Basic React test
+    import React from 'react';
+    import ReactDOM from 'react-dom/client';
+
+    // Test React rendering
+    try {
+      const root = ReactDOM.createRoot(document.getElementById('react-mount-point'));
+      root.render(React.createElement('div', { className: 'success' }, 'React is working properly'));
+      console.log('React test passed');
+    } catch (e) {
+      document.getElementById('react-mount-point').innerHTML =
+        `<div class="error">React error: ${e.message}</div>`;
+      console.error('React test failed:', e);
+    }
+
+    // Test Material UI
+    try {
+      import('@mui/material/Button').then(ButtonModule => {
+        const Button = ButtonModule.default;
+        const root = ReactDOM.createRoot(document.getElementById('mui-mount-point'));
+        root.render(React.createElement(Button, { variant: 'contained' }, 'MUI is working'));
+        console.log('MUI test passed');
+      }).catch(e => {
+        document.getElementById('mui-mount-point').innerHTML =
+          `<div class="error">MUI error: ${e.message}</div>`;
+        console.error('MUI test failed:', e);
+      });
+    } catch (e) {
+      document.getElementById('mui-mount-point').innerHTML =
+        `<div class="error">MUI import error: ${e.message}</div>`;
+      console.error('MUI import failed:', e);
+    }
+
+    // Test API connection
+    fetch('/api/health')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('api-result').innerHTML =
+          `<div class="success">Backend connection successful: ${JSON.stringify(data)}</div>`;
+        console.log('API test passed:', data);
+      })
+      .catch(error => {
+        document.getElementById('api-result').innerHTML =
+          `<div class="error">Backend connection failed: ${error.message}</div>`;
+        console.error('API test failed:', error);
+      });
+  </script>
+</body>
+</html>
