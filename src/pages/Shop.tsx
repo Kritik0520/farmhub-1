@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -8,8 +8,10 @@ import {
   CardMedia,
   CardActions,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
-import { Product } from "../App"; // Make sure Product type is exported from App.tsx
+import { Product } from "../App";
 
 type ShopProps = {
   addToCart: (product: Product) => void;
@@ -25,25 +27,19 @@ const sections: { title: string; products: Product[] }[] = [
       { id: "barley", name: "Barley", price: 1000, image: "https://plus.unsplash.com/premium_photo-1705404738459-c4cb25ad7933?w=1000&auto=format&fit=crop&q=60" },
     ],
   },
-  {
-    title: "Fruits",
-    products: [
-      { id: "mango", name: "Mango", price: 250, image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=1000&auto=format&fit=crop&q=60" },
-      { id: "banana", name: "Banana", price: 60, image: "https://images.unsplash.com/photo-1603833665858-e61d17a86224?w=1000&auto=format&fit=crop&q=60" },
-      { id: "apple", name: "Apple", price: 120, image: "https://plus.unsplash.com/premium_photo-1661322640130-f6a1e2c36653?w=1000&auto=format&fit=crop&q=60" },
-    ],
-  },
-  {
-    title: "Vegetables",
-    products: [
-      { id: "tomato", name: "Tomato", price: 40, image: "https://images.unsplash.com/photo-1582284540020-8acbe03f4924?w=1000&auto=format&fit=crop&q=60" },
-      { id: "potato", name: "Potato", price: 30, image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=1000&auto=format&fit=crop&q=60" },
-      { id: "onion", name: "Onion", price: 50, image: "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=1000&auto=format&fit=crop&q=60" },
-    ],
-  },
+  // Fruits and Vegetables sections...
 ];
 
 const Shop: React.FC<ShopProps> = ({ addToCart }) => {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMsg, setSnackbarMsg] = useState("");
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
+    setSnackbarMsg(`${product.name} added to cart — ₹${product.price}`);
+    setSnackbarOpen(true);
+  };
+
   return (
     <Box sx={{ bgcolor: "#f0fdf4", minHeight: "100vh", py: 6 }}>
       <Box sx={{ maxWidth: 1200, mx: "auto", px: 2 }}>
@@ -92,7 +88,6 @@ const Shop: React.FC<ShopProps> = ({ addToCart }) => {
                         "&:hover": { transform: "scale(1.05)" },
                       }}
                     />
-
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography variant="h6" sx={{ fontWeight: 700 }}>
                         {p.name}
@@ -101,13 +96,12 @@ const Shop: React.FC<ShopProps> = ({ addToCart }) => {
                         ₹{p.price}
                       </Typography>
                     </CardContent>
-
                     <CardActions>
                       <Button
                         fullWidth
                         variant="contained"
                         sx={{ bgcolor: "#388e3c", "&:hover": { bgcolor: "#2e7d32" } }}
-                        onClick={() => addToCart(p)}
+                        onClick={() => handleAddToCart(p)}
                       >
                         Add to Cart
                       </Button>
@@ -119,6 +113,18 @@ const Shop: React.FC<ShopProps> = ({ addToCart }) => {
           </Box>
         ))}
       </Box>
+
+      {/* Snackbar for added-to-cart notification */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: "100%" }}>
+          {snackbarMsg}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

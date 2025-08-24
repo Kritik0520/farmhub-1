@@ -25,7 +25,6 @@ const App: React.FC = () => {
       }
       return [...prev, { ...product, quantity: 1 }];
     });
-    alert(`${product.name} added to cart — ₹${product.price}`);
   };
 
   const updateQty = (id: string, quantity: number) => {
@@ -54,40 +53,39 @@ const App: React.FC = () => {
           <Button color="inherit" href="/admin/login">Admin Login</Button>
 
           {/* Cart Button */}
-          <Box sx={{ position: "relative" }}>
-            <IconButton
-              color="inherit"
-              onClick={() => setCartOpen((prev) => !prev)}
-              onMouseEnter={() => setCartOpen(true)}
-              onMouseLeave={() => setCartOpen(false)}
-            >
-              <ShoppingCart />
-              {cart.length > 0 && (
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: -4,
-                    right: -4,
-                    bgcolor: "red",
-                    color: "white",
-                    fontSize: "0.75rem",
-                    px: 0.7,
-                    borderRadius: "50%",
-                  }}
-                >
-                  {cart.length}
-                </Box>
-              )}
-            </IconButton>
+<Box sx={{ position: "relative" }}>
+  <IconButton
+    color="inherit"
+    onClick={() => setCartOpen((prev) => !prev)}
+  >
+    <ShoppingCart />
+    {cart.length > 0 && (
+      <Box
+        sx={{
+          position: "absolute",
+          top: -4,
+          right: -4,
+          bgcolor: "red",
+          color: "white",
+          fontSize: "0.75rem",
+          px: 0.7,
+          borderRadius: "50%",
+        }}
+      >
+        {cart.length}
+      </Box>
+    )}
+  </IconButton>
 
-            {cartOpen && (
-              <CartOverlay
-                cart={cart}
-                updateQty={updateQty}
-                removeFromCart={removeFromCart}
-              />
-            )}
-          </Box>
+  {cartOpen && (
+    <CartOverlay
+      cart={cart}
+      updateQty={updateQty}
+      removeFromCart={removeFromCart}
+    />
+  )}
+</Box>
+
         </Toolbar>
       </AppBar>
 
