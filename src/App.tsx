@@ -19,6 +19,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import Shop from "./pages/Shop";
 import CartOverlay from "./components/CartOverlay";
+import FieldMapping from "./pages/FieldMapping";
 
 const App: React.FC = () => {
   const [cart, setCart] = useState<any[]>([]);
@@ -74,8 +75,9 @@ const App: React.FC = () => {
 
           {[
             { label: "Home", path: "/" },
-            { label: "Farmer Login", path: "/farmer/login" },
             { label: "Shop", path: "/shop" },
+            { label: "Field Mapping", path: "/field-mapping" },
+            { label: "Farmer Login", path: "/farmer/login" },
             { label: "Admin Login", path: "/admin/login" },
           ].map((item) => (
             <Button
@@ -152,6 +154,7 @@ const App: React.FC = () => {
         <Route path="/farmer/dashboard" element={<FarmerDashboard />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/field-mapping" element={<FieldMapping />} />
         <Route path="/shop" element={<Shop addToCart={addToCart} />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

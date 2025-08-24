@@ -6,6 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import App from "./App";
 import theme from "./theme";
 import { CartProvider } from "./context/CartContext"; // ✅ import
+import "./index.css";
 
 // Error boundary (your existing code)
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean, error: Error | null }> {
