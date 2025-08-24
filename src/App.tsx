@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { Box, AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Slide,
+} from "@mui/material";
 import { ShoppingCart } from "lucide-react";
 
 import Home from "./pages/Home";
@@ -13,7 +21,9 @@ import Shop from "./pages/Shop";
 import CartOverlay from "./components/CartOverlay";
 
 const App: React.FC = () => {
-  const [cart, setCart] = useState<any[]>([]); // cart items
+  const [cart, setCart] = useState<any[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const navigate = useNavigate();
 
   const addToCart = (product: any) => {
     setCart((prev) => {
@@ -37,55 +47,100 @@ const App: React.FC = () => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const [cartOpen, setCartOpen] = useState(false);
-
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "#f5f5f5" }}>
       {/* Navbar */}
-      <AppBar position="static" sx={{ bgcolor: "#388e3c" }}>
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            FarmHub - Precision Farming Advisor
-          </Typography>
-          <Button color="inherit" href="/">Home</Button>
-          <Button color="inherit" href="/farmer/login">Farmer Login</Button>
-          <Button color="inherit" href="/shop">Shop</Button>
-          <Button color="inherit" href="/admin/login">Admin Login</Button>
-
-          {/* Cart Button */}
-<Box sx={{ position: "relative" }}>
-  <IconButton
-    color="inherit"
-    onClick={() => setCartOpen((prev) => !prev)}
-  >
-    <ShoppingCart />
-    {cart.length > 0 && (
-      <Box
+      <AppBar
+        position="sticky"
+        elevation={3}
         sx={{
-          position: "absolute",
-          top: -4,
-          right: -4,
-          bgcolor: "red",
-          color: "white",
-          fontSize: "0.75rem",
-          px: 0.7,
-          borderRadius: "50%",
+          bgcolor: "transparent",
+          backgroundImage: "linear-gradient(90deg, #2e7d32, #388e3c, #43a047)",
         }}
       >
-        {cart.length}
-      </Box>
-    )}
-  </IconButton>
+        <Toolbar>
+          <Typography
+            variant="h6"
+            sx={{
+              flexGrow: 1,
+              fontWeight: "bold",
+              cursor: "pointer",
+              letterSpacing: 0.5,
+            }}
+            onClick={() => navigate("/")}
+          >
+            🌾 FarmHub
+          </Typography>
 
-  {cartOpen && (
-    <CartOverlay
-      cart={cart}
-      updateQty={updateQty}
-      removeFromCart={removeFromCart}
-    />
-  )}
-</Box>
+          {[
+            { label: "Home", path: "/" },
+            { label: "Farmer Login", path: "/farmer/login" },
+            { label: "Shop", path: "/shop" },
+            { label: "Admin Login", path: "/admin/login" },
+          ].map((item) => (
+            <Button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              sx={{
+                color: "white",
+                position: "relative",
+                mx: 1,
+                "&:after": {
+                  content: '""',
+                  position: "absolute",
+                  width: "0%",
+                  height: "2px",
+                  bottom: 0,
+                  left: 0,
+                  bgcolor: "white",
+                  transition: "width 0.3s ease",
+                },
+                "&:hover:after": {
+                  width: "100%",
+                },
+              }}
+            >
+              {item.label}
+            </Button>
+          ))}
 
+          {/* Cart Button */}
+          <Box sx={{ position: "relative" }}>
+            <IconButton
+              color="inherit"
+              onClick={() => setCartOpen((prev) => !prev)}
+              sx={{ color: "white" }}
+            >
+              <ShoppingCart />
+              {cart.length > 0 && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: -4,
+                    right: -4,
+                    bgcolor: "red",
+                    color: "white",
+                    fontSize: "0.75rem",
+                    px: 0.7,
+                    borderRadius: "50%",
+                  }}
+                >
+                  {cart.length}
+                </Box>
+              )}
+            </IconButton>
+
+            {/* Animated Cart Overlay */}
+            <Slide direction="down" in={cartOpen} mountOnEnter unmountOnExit>
+              <Box>
+                <CartOverlay
+                  cart={cart}
+                  updateQty={updateQty}
+                  removeFromCart={removeFromCart}
+                />
+              </Box>
+            </Slide>
+          </Box>
         </Toolbar>
       </AppBar>
 
